@@ -1,0 +1,23 @@
+div.h_one {
+   font-family: "Times New Roman", Georgia, Serif;
+   text-align:center;
+}
+
+div.h_two {
+   font-family: "Times New Roman", Georgia, Serif;
+   text-align:center;
+}
+
+div.randomquote {
+   font-family: "Times New Roman", Georgia, Serif;
+   text-align:center;
+}
+
+p.default1 {
+   font-family: "Times New Roman", Georgia, Serif;
+   margin-left: 2cm;
+}
+
+p.required {
+    color: red;
+}
