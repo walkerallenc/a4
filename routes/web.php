@@ -6,23 +6,30 @@
 ###The code within the routes file establishes the main route, a logs route and a debugging route.   #
 ###################################################################################################### 
 
-### Route::get('/', 'PracticeController@practice1');
-### Route::get('/', 'PracticeController@practice2');
-### Route::get('/', 'PracticeController@practice3');
-### Route::get('/', 'PracticeController@practice4');
+
+Route::get('/security/new', 'LoginController@createNewEmployee');
 
 Route::get('/', 'LoginController@index');
 
-#Route::get('/security','LoginController@access');
-Route::get('/security/{id?}','LoginController@edit');
+##Route::get('/security','LoginController@access');
+
+Route::get('/security/{id?}/{edit_delete?}','LoginController@edit');
+###Route::get('/security/{submitaction?}', 'LoginController@confirmDeletion');
+
 #Route::get('/mgrportal','LoginController@access');
-#Route::get('employees/edit/{id}','LoginController@edit');
+##Route::get('employees/edit/{id}','LoginController@edit');
+
+Route::post('/save/new', 'LoginController@saveNewEmployee');
 
 Route::post('/save', 'LoginController@saveEdits');
 
+Route::get('/initdelete/{id?}', 'LoginController@confirmDeletion');
 
-   # Get route to show a form to edit an existing book
-   ### Route::get('/books/edit/{id}', 'BookController@edit');
+Route::post('/delete', 'LoginController@delete');
+
+Route::get('/show/{id?}', 'LoginController@show');
+
+
 
 
 if(config('app.env') == 'local') {

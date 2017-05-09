@@ -7,34 +7,19 @@
 @section('content')
     <form method='GET' action='/security'>
         <div class='/css/acw.css'>
-{{--            <p>--}}
-{{--                <label for="login">Login</label><br>--}}
-{{--                <input type="text" name="login" id=login value='username'}}><br>--}
-{{--                <input type='submit' class='/css/acw.css' value='submit username'>--}}
-{{--            </p>--}}
-{{--            @foreach($books as $book)           --}}
-{{--                <h2>{{ $book->title }}</h2>     --}}
-{{--                <img src='{{ $book->cover }}'>  --}} 
-{{--            @endforeach                         --}}
-
-        <label for='employee_id'>Employee:</label>    
-        <select id='employee_id' name='id'>   
-            <option value='0'>Choose</option>
-            @foreach($employees as $employee)
-                <option value='{{ $employee->id }}'>
-                    {{ $employee->first_name }}
-                    {{ $employee->last_name }}
-                </option>
-            @endforeach
-        </select><br>
-        <input type='submit' class='/css/acw.css' value='Edit selected employee'>
-
-{{--             @foreach($employees as $employee)                    --}}
-{{--                 <h2>{{ $employee->title }}</h2>                  --}} 
-{{--                 <h2>{{ $employee->first_name }}</h2>             --}}
-{{--                 <h2>{{ $employee->last_name }}</h2><br>          --}} 
-{{--                     <img src='{{ $employee->last_name }}'>       --}}
-{{--            @endforeach                                           --}}
+            <label for='employee_id'>Employee:</label>    
+            <select id='employee_id' name='id'>   
+                <option value='0'>Add Employee</option>
+                @foreach($employees as $employee)
+                    <option value='{{ $employee->id }}'>
+                        {{ $employee->first_name }}
+                        {{ $employee->last_name }}
+                    </option>
+                @endforeach
+            </select><br>
+        <input type='radio' name='edit_delete' id='edit' value='edit' 'CHECKED'> Edit employee<br>
+        <input type='radio' name='edit_delete' id='delete' value='delete' > Delete employee<br>
+        <input type='submit' class='/css/acw.css' name='processaction' value='submit'>
         </div>
     </form>
 
