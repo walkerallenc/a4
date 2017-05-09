@@ -154,14 +154,14 @@ public function edit(Request $request) {
 
 ###dd($id);
 
-###    $id=$request->id;
+    $id=$request->id;
     if($request->id==0) {
 ###     Session::flash('message', 'Book not found.');
         return redirect('/security/new');
     }
 
 
-###    $edit_delete=$request->edit_delete;
+    $edit_delete=$request->edit_delete;
     if($request->edit_delete=='delete') {
 ###     Session::flash('message', 'Book not found.');
         return redirect('/initdelete/'.$request->id);
