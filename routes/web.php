@@ -7,27 +7,27 @@
 ###################################################################################################### 
 
 
-Route::get('/security/new', 'LoginController@createNewEmployee');
+Route::get('/security/new', 'Login2Controller@createNewEmployee');
 
-Route::get('/', 'LoginController@index');
+Route::get('/', 'Login2Controller@index');
 
-##Route::get('/security','LoginController@access');
+##Route::get('/security','Login2Controller@access');
 
-Route::get('/security/{id?}/{edit_delete?}','LoginController@edit');
+Route::get('/security/{id?}/{edit_delete?}','Login2Controller@edit');
 ###Route::get('/security/{submitaction?}', 'LoginController@confirmDeletion');
 
-#Route::get('/mgrportal','LoginController@access');
-##Route::get('employees/edit/{id}','LoginController@edit');
+#Route::get('/mgrportal','Login2Controller@access');
+##Route::get('employees/edit/{id}','Login2Controller@edit');
 
-Route::post('/save/new', 'LoginController@saveNewEmployee');
+Route::post('/save/new', 'Login2Controller@saveNewEmployee');
 
-Route::post('/save', 'LoginController@saveEdits');
+Route::post('/save', 'Login2Controller@saveEdits');
 
-Route::get('/initdelete/{id?}', 'LoginController@confirmDeletion');
+Route::get('/initdelete/{id?}', 'Login2Controller@confirmDeletion');
 
-Route::post('/delete', 'LoginController@delete');
+Route::post('/delete', 'Login2Controller@delete');
 
-Route::get('/show/{id?}', 'LoginController@show');
+Route::get('/show/{id?}', 'Login2Controller@show');
 
 
 
@@ -95,3 +95,9 @@ if(App::environment('local')) {
     });
 
 };
+
+
+Auth::routes();
+
+
+Route::get('/home', 'HomeController@index')->name('home');

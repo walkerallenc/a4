@@ -7,7 +7,7 @@ use App\Manager;
 use App\Employee; 
 use App\Category; 
 
-class LoginController extends Controller
+class Login2Controller extends Controller
 {
     //
     public function index() {

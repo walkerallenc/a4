@@ -9,7 +9,7 @@
         <div class='/css/acw.css'>
             <label for='employee_id'>Employee:</label>    
             <select id='employee_id' name='id'>   
-                <option value='0'>Add Employee</option>
+                <option value='0'>*** Add Employee ***</option>
                 @foreach($employees as $employee)
                     <option value='{{ $employee->id }}'>
                         {{ $employee->first_name }}

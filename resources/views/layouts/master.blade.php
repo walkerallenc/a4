@@ -15,8 +15,9 @@
 
     <header>
         <img src='/images/frontpagepic.jpg' style='width:200px' alt='Jewelry Store Image'>
+    <br>
+    <br>
     </header>
-
     <section>
         @yield('content')
     </section>
