@@ -18,6 +18,7 @@
     <br>
     <br>
     </header>
+
     <section>
         @yield('content')
     </section>

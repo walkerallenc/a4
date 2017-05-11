@@ -9,12 +9,23 @@
     <link href='/css/books.css' rel='stylesheet'>
 @endpush
 
+<div>{{ Session::get('message') }}</div><br>    
 
 @section('content')
     <h1>Add a new book</h1>
 
+    <nav>
+        <ul>
+            <a href='/'>Home</a><br>
+            <a href='/security/new'>Add an employee</a><br>
+            <form method='POST' id='logout' action='/logout'>
+                {{csrf_field()}}
+                <a href='#' onClick='document.getElementById("logout").submit();'>Logout</a>
+            </form>
+        </ul>
+    </nav> 
+
     <form method='POST' action='/save/new'>
-{{--    <form method='POST' action='/books/new'> --}}
         {{ csrf_field() }}
 
 {{--        <small>* Required fields</small>  --}}
@@ -28,8 +39,8 @@
         <label for='lastName'>* Last Name</label>
         <input type='text' name='lastName' id='lastName' value='{{ old('lastName', '') }}'><br>
 
-        <label for='teamID'>* Team ID</label>
-        <input type='text' name='teamID' id='teamID' value='{{ old('teamID', '') }}'><br><br>
+{{--        <label for='teamID'>* Team ID</label>                                                 --}}
+{{--        <input type='text' name='teamID' id='teamID' value='{{ old('teamID', '') }}'><br><br> --}}
 
 {{--        <label for='published'>* Published Year</label> --}}
 {{--        <input type='text' name='published' id='published' value='{{ old('published', 1960) }}'> --}}

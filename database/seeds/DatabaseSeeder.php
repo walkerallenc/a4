@@ -18,9 +18,10 @@ class DatabaseSeeder extends Seeder
            ###   $this->call(BooksTableSeeder::class); 
            ###   $this->call(TagsTableSeeder::class);
            ###   $this->call(BookTagTableSeeder::class);
-              $this->call(ManagersTableSeeder::class); 
-              $this->call(EmployeesTableSeeder::class); 
-              $this->call(CategoriesTableSeeder::class); 
-              $this->call(EmployeeCategoryTableSeeder::class); 
+###              $this->call(ManagersTableSeeder::class); 
+###              $this->call(EmployeesTableSeeder::class); 
+###              $this->call(CategoriesTableSeeder::class); 
+###              $this->call(EmployeeCategoryTableSeeder::class); 
+              $this->call(UsersTableSeeder::class); 
     }
 }

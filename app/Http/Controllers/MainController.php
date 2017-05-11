@@ -3,51 +3,49 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use Session;
+use App\User; 
 use App\Manager; 
 use App\Employee; 
 use App\Category; 
 
-class Login2Controller extends Controller
+class MainController extends Controller
 {
     //
     public function index() {
-        $managersForDropdown = Manager::getManagersForDropdown();
-        $mgrID=($managersForDropdown[2][0]);
-dump($mgrID);
+
+        $usrID = Auth::user();
+        $id=$usrID->id;
+
+        ###dump($id);
+        ###if($id) {Session::flash('message', $id[0]->name. ' logged on.');}
 
 
-        ###$employees = Employee::all();
-
-        $employees = Employee::where('team_id', '=', $mgrID )->get();
+        $employees = Employee::where('team_id', '=', $id)->get();
 
     return view('login.index')->with(['employees' => $employees]); 
     }
 
+
+    public function tologin() {
+
+        return redirect('/login');
+    }     
+
     //
     public function access() {
 
-### IF LOGIN ATTEMPT PASSES
-###     DO THIS
-        #$books = Book::all();
         $employees = Employee::all(); 
-##dd($employees);
         return view('login.mgrportal')->with(['employees' => $employees]); 
-### ELSE
-###    DO THIS
-### END IF
     }
-
+    
+    //
     public function mgrportal() {
 
-### IF LOGIN ATTEMPT PASSES
-###     DO THIS
-        #$books = Book::all();
         $employees = Employee::all();
         dump($employees);
         return view('login.mgrportal')->with(['employees' => $employees]); 
-### ELSE
-###    DO THIS
-### END IF
     }
 
    /**
@@ -69,14 +67,14 @@ dump($mgrID);
 ###    }
    /**
     * GET
-    * /booksXXXXXX/{id}
+    * /employee/{id}
     */
     public function show($id) {
 
         $employee = Employee::find($id);
 
         if(!$employee) {
- ###           Session::flash('message', 'The book you requested could not be found.');
+            Session::flash('message', 'The employee you searched for could not be found.');
             return redirect('/');
         }
 
@@ -106,9 +104,17 @@ dump($mgrID);
     * Process the form for adding a new book
     */
     public function saveNewEmployee(Request $request) {
-        # Custom error message
+
+        $usrID = Auth::user();
+        $id=$usrID->id;
+
+        $manager = Manager::where('id', '=', $id)->get();
+
+###dd($manager[0]->last_name);
+###dd($id);
+
         $messages = [
-            'teamID.not_in' => 'Manager not selected.',
+            'teamID' => $id,
         ];
 
         $this->validate($request, [
@@ -118,12 +124,18 @@ dump($mgrID);
             'teamID' => 'not_in:0',
         ], $messages);
 
+
+
+###            'teamID' => 'not_in:0',
+
+
         # Add new book to database
         $employee = new Employee();
         $employee->title = $request->title;
         $employee->first_name = $request->firstName;
         $employee->last_name = $request->lastName;
-        $employee->team_id = $request->teamID;
+        $employee->team_id = $id;
+###dd($id);
         $employee->save();
 
         # Now handle tags.
@@ -134,51 +146,44 @@ dump($mgrID);
         $employee->categories()->sync($tags);
         $employee->save();
 
-###        Session::flash('message', 'The book '.$request->title.' was added.');
+        Session::flash('message','Employee '.$employee->first_name.' '.$employee->last_name.' was added to team '.$manager[0]->first_name.' '.$manager[0]->last_name.'. ');
 
-        # Redirect the user to book index
-###       return redirect
-###        return redirect('/security/'.$request->id);
         return redirect('/');
-
     }
 
 /**
 * POST
-* /books/edit
+* /employees/edit
 * Process form to edit a book
 */
+##############################################################################################
+# Edit selected employee
+##############################################################################################
 public function edit(Request $request) {
-    ###$managersForDropdown = Manager::getManagersForDropdown();
-    ###dd($managersForDropdown[2][0]);
-
-###dd($id);
 
     $id=$request->id;
     if($request->id==0) {
-###     Session::flash('message', 'Book not found.');
-        return redirect('/security/new');
+        Session::flash('message', 'The selected employee is not valid.');
+        return redirect('/index');
     }
 
 
     $edit_delete=$request->edit_delete;
     if($request->edit_delete=='delete') {
-###     Session::flash('message', 'Book not found.');
+        Session::flash('message', 'Employee found.');
         return redirect('/initdelete/'.$request->id);
     }
 
-
-    # Get this book and eager load its tags
-$employee = Employee::with('categories')->find($id);
-###dd($employee);
+    # Get this employee and eager load its tags
+    $employee = Employee::with('categories')->find($id);
 
     # Get all the possible tags so we can include them with checkboxes in the view
     $categoriesForCheckboxes = Category::getCategoriesForCheckboxes();
-###dd($categoriesForCheckboxes);
+
     # Create a simple array of just the tag names for tags associated with this book;
     # will be used in the view to decide which tags should be checked off
     $categoriesForThisEmployee = [];
-###dd($employee);
+
     foreach($employee->categories as $tag) {
         $categoriesForThisEmployee[] = $tag->name;
     }
@@ -197,16 +202,13 @@ $employee = Employee::with('categories')->find($id);
 * /books/edit
 * Process form to save edits to a book
 */
+##############################################################################################
+#
+##############################################################################################
 public function saveEdits(Request $request) {
 
         $employee = Employee::find($request->id);
-###        dd($request->id);
 
-        $employee = Employee::find($request->id);
-###        dd($employee);
-
-###   dd($request);
-###   dd($request->tags);
         # If there were tags selected...
         if($request->tags) {
             $tags = $request->tags;
@@ -224,32 +226,12 @@ public function saveEdits(Request $request) {
         $employee->categories()->sync($tags);
         $employee->save();
 
-###        Session::flash('message', 'Your changes to '.$employee->title.' were saved.');
-###     return redirect('/');
-###     return redirect('/save'.$request->id);
+        Session::flash('message', 'Your changes to '.$employee->first_name. ' '.$employee->last_name. ' were saved.');
+
         return redirect('/security/'.$request->id);
 
     }
 
-
-    /**
-    * GET
-    * Page to confirm deletion
-    */
-###    public function confirmDeletion($id) {
-###
-###        # Get the book they're attempting to delete
-###        $book = Book::find($id);
-###
-###        if(!$book) {
-###            Session::flash('message', 'Book not found.');
-###            return redirect('/books');
-###        }
-###
-###        return view('books.delete')->with('book', $book);
-###    }
-###
-###
     /**
     * GET
     * Page to confirm deletion
@@ -260,52 +242,29 @@ public function saveEdits(Request $request) {
         $employee = Employee::find($id);
 
         if(!$employee) {
-            Session::flash('message', 'Book not found.');
-            return redirect('/booksXXXXX');
+            Session::flash('message', 'Employee not found.');
+            return redirect('/index');
         }
+
+        Session::flash('message', 'Employee '.$employee->first_name. ' '.$employee->last_name.' was deleted.');
 
         return view('employees.delete')->with('employee', $employee);
     }
 
-
-
     /**
     * POST
     * Actually delete the book
     */
-###    public function delete(Request $request) {
-###
-###        # Get the book to be deleted
-###        $book = Book::find($request->id);
-###
-###        if(!$book) {
-###            Session::flash('message', 'Deletion failed; book not found.');
-###            return redirect('/books');
-###        }
-###
-###        $book->tags()->detach();
-###
-###        $book->delete();
-###
-###        # Finish
-###        Session::flash('message', $book->title.' was deleted.');
-###        return redirect('/books');
-###    }
-###
-###}
-    /**
-    * POST
-    * Actually delete the book
-    */
+##############################################################################################
+# Delete employee
+##############################################################################################
     public function delete(Request $request) {
-
-###dd($request);
 
         # Get the employee to be deleted
         $employee = Employee::find($request->id);
-($employee);
+###($employee);
         if(!$employee) {
-###            Session::flash('message', 'Deletion failed; book not found.');
+            Session::flash('message', 'Deletion failed; the employee to be deleted was not found.');
             return redirect('/employees');
         }
 
@@ -314,7 +273,9 @@ public function saveEdits(Request $request) {
         $employee->delete();
 
         # Finish
-###        Session::flash('message', $employee->title.' was deleted.');
+
+        Session::flash('message', 'Employee '.$employee->first_name. ' '.$employee->last_name.' was deleted.');
+
         return redirect('/');
     }
 

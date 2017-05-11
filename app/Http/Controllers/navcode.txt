@@ -1,0 +1,13 @@
+    <nav>
+        <ul>
+            <li><a href='/'>Home</a></li>
+            <li><a href='/search'>Search</a></li>
+            <li><a href='/books/new'>Add a book</a></li>
+            <li>
+                <form method='POST' id='logout' action='/logout'>
+                    {{csrf_field()}}
+                    <a href='#' onClick='document.getElementById("logout").submit();'>Logout</a>
+                </form>
+            </li>
+        </ul>
+    </nav>

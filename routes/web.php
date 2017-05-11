@@ -7,33 +7,34 @@
 ###################################################################################################### 
 
 
-Route::get('/security/new', 'Login2Controller@createNewEmployee');
+Route::get('/security/new', 'MainController@createNewEmployee');
 
-Route::get('/', 'Login2Controller@index');
+Route::get('/index', 'MainController@index');
+Route::get('/', 'MainController@tologin');
 
-##Route::get('/security','Login2Controller@access');
+Route::get('/security/{id?}','MainController@edit');
 
-Route::get('/security/{id?}/{edit_delete?}','Login2Controller@edit');
+Route::get('/security/{id?}/{edit_delete?}','MainController@edit');
 ###Route::get('/security/{submitaction?}', 'LoginController@confirmDeletion');
 
-#Route::get('/mgrportal','Login2Controller@access');
-##Route::get('employees/edit/{id}','Login2Controller@edit');
+#Route::get('/mgrportal','MainController@access');
+##Route::get('employees/edit/{id}','MainController@edit');
 
-Route::post('/save/new', 'Login2Controller@saveNewEmployee');
+Route::post('/save/new', 'MainController@saveNewEmployee');
 
-Route::post('/save', 'Login2Controller@saveEdits');
+Route::post('/save', 'MainController@saveEdits');
 
-Route::get('/initdelete/{id?}', 'Login2Controller@confirmDeletion');
+Route::get('/initdelete/{id?}', 'MainController@confirmDeletion');
 
-Route::post('/delete', 'Login2Controller@delete');
+Route::post('/delete', 'MainController@delete');
 
-Route::get('/show/{id?}', 'Login2Controller@show');
+Route::get('/show/{id?}', 'MainController@show');
 
 
 
 
 if(config('app.env') == 'local') {
-    Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+    ###Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
     Route::get('/debugbar', function() {
 
@@ -100,4 +101,23 @@ if(App::environment('local')) {
 Auth::routes();
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/show-login-status',function() {
+        $user=Auth::user();
+dump($user);
+        if($user) {
+            echo 'You are logged in';
+            dump($user->id);
+            ##dd($id=$user->id);
+        }  
+        else
+           {echo 'You are not logged in';}
+   return;
+});
+
+###Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/home/{id?}', 'MainController@index')->name('home');
+
+

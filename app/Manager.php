@@ -17,7 +17,7 @@ class Manager extends Model
         # Get all the managers
         $managers = Manager::orderBy('last_name', 'ASC')->get();
 
-        # Organize the managers into an array where the key = author id and value = manager name
+        # Organize the managers into an array where the key = team id and value = manager name
         $managersForDropdown = [];
         foreach($managers as $manager) {
             $managersForDropdown[$manager->id] = $manager->id.', '.$manager->last_name.', '.$manager->first_name;
