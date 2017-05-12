@@ -8,34 +8,32 @@
 
         <p>* Required fields</p> 
         <label for="name">* Name</label> 
-        <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus> 
+        <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus><br> 
         @if($errors->has('name')) 
             <span class="help-block"> 
                 <div class="error">
                     {{ $errors->first('name') }}
                 </div> 
             </span> 
-            <br>
         @endif 
         <label for="email">* E-Mail Address</label> 
-        <input id="email" type="email" name="email" value="{{ old('email') }}" required> 
+        <input id="email" type="email" name="email" value="{{ old('email') }}" required><br>
         @if ($errors->has('email')) 
             <span class="help-block"> 
                 <div class="error">
                     {{ $errors->first('email') }}
                 </div> 
             </span> 
-            <br>
         @endif 
         <label for="password">* Password (min: 6)</label> 
-        <input id="password" type="password" name="password" required> 
+        <input id="password" type="password" name="password" required><br>
         @if ($errors->has('password')) 
             <div class="error">
                 {{ $errors->first('password') }}
             </div> 
         @endif 
         <label for="password-confirm">* Confirm Password</label> 
-        <input id="password-confirm" type="password" name="password_confirmation" required> 
+        <input id="password-confirm" type="password" name="password_confirmation" required><br> 
         <br> 
         <button type="submit" class="btn btn-primary">Register</button> 
     </form>

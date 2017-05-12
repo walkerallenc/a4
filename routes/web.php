@@ -15,10 +15,6 @@ Route::get('/', 'MainController@tologin');
 Route::get('/security/{id?}','MainController@edit');
 
 Route::get('/security/{id?}/{edit_delete?}','MainController@edit');
-###Route::get('/security/{submitaction?}', 'LoginController@confirmDeletion');
-
-#Route::get('/mgrportal','MainController@access');
-##Route::get('employees/edit/{id}','MainController@edit');
 
 Route::post('/save/new', 'MainController@saveNewEmployee');
 
@@ -29,9 +25,6 @@ Route::get('/initdelete/{id?}', 'MainController@confirmDeletion');
 Route::post('/delete', 'MainController@delete');
 
 Route::get('/show/{id?}', 'MainController@show');
-
-
-
 
 if(config('app.env') == 'local') {
     ###Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

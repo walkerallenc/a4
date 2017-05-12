@@ -1,7 +1,11 @@
 @extends('layouts.master')
+{{--#################################################################################--}}
+{{--#   CSCI E-15 Dynamic We Applications.                                          #--}}          
+{{--#   Developer: Allen C. Walker                                                  #--}}          
+{{--#################################################################################--}}
 
 @push('head')
-    <link href='/css/books.css' rel='stylesheet'>
+    <link href='/acw/acw.css' rel='stylesheet'>
 @endpush
 
 @section('title')
@@ -10,11 +14,20 @@
 
 @section('content')
 
+    <nav>
+        <ul>
+            <a href='/'>Home</a><br>
+            <a href='/security/new'>Add an employee</a><br>
+            <form method='POST' id='logout' action='/logout'>
+                {{csrf_field()}}
+                <a href='#' onClick='document.getElementById("logout").submit();'>Logout</a>
+            </form>
+        </ul>
+    </nav> 
+
     <div class='book cf'>
 
         <h1>{{ $employee->title }}</h1>
-
-       {{-- <a href='/books/{{ $book->id }}'><img class='cover' src='{{ $book->cover }}' alt='Cover for {{ $book->title }}'></a> --}}
 
         <p>First Name: {{ $employee->first_name }}</p>
 

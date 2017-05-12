@@ -1,4 +1,9 @@
 <?php
+################################################################
+#CSCI E-15 Dynamic Web Applications                            #
+#Assignment A4                                                 #
+#Developer: Allen C. Walker                                    #
+################################################################
 
 namespace App\Http\Controllers;
 
@@ -10,9 +15,19 @@ use App\Manager;
 use App\Employee; 
 use App\Category; 
 
+##################################################################################################
+### This MainController controller class contains the logic regarding the managers table.      ###
+### I)  "index" function that returns all employees assigned to the logged in manager.         ###
+### II) "tologin" function that redirects users to the login route.                            ###
+### III) "tologin" function that redirects users to the login route.                           ###
+### IV) "createNewEmployee" function that returns categories to be assigned a to new employee. ###
+##################################################################################################
 class MainController extends Controller
 {
-    //
+
+###############################################################################################
+### I)  "index" function that returns all employees assigned to the logged in manager.      ###
+###############################################################################################
     public function index() {
 
         $usrID = Auth::user();
@@ -21,54 +36,42 @@ class MainController extends Controller
         ###dump($id);
         ###if($id) {Session::flash('message', $id[0]->name. ' logged on.');}
 
-
         $employees = Employee::where('team_id', '=', $id)->get();
 
     return view('login.index')->with(['employees' => $employees]); 
     }
 
 
+###############################################################################################
+### II)  "tologin" function that returns all employees assigned to the logged in manager.   ###
+###############################################################################################
     public function tologin() {
 
         return redirect('/login');
     }     
 
     //
-    public function access() {
-
-        $employees = Employee::all(); 
-        return view('login.mgrportal')->with(['employees' => $employees]); 
-    }
+###    public function access() {
+###
+###        $employees = Employee::all(); 
+###        return view('login.mgrportal')->with(['employees' => $employees]); 
+###    }
     
     //
-    public function mgrportal() {
-
-        $employees = Employee::all();
-        dump($employees);
-        return view('login.mgrportal')->with(['employees' => $employees]); 
-    }
-
-   /**
-    * GET
-    * /books/{id}
-    */
-###    public function show($id) {
+###    public function mgrportal() {
 ###
-###        $book = Book::find($id);
-###
-###        if(!$book) {
-###            Session::flash('message', 'The book you requested could not be found.');
-###            return redirect('/');
-###        }
-###
-###        return view('books.show')->with([
-###            'book' => $book,
-###        ]);
+###        $employees = Employee::all();
+###        dump($employees);
+###        return view('login.mgrportal')->with(['employees' => $employees]); 
 ###    }
+
    /**
     * GET
     * /employee/{id}
     */
+###############################################################################################
+### III)  "show" function that returns data for a particular employee.                      ###
+###############################################################################################
     public function show($id) {
 
         $employee = Employee::find($id);
@@ -89,6 +92,9 @@ class MainController extends Controller
     * /employees/new
     * Display the form to add a new book
     */
+##################################################################################################
+### IV) "createNewEmployee" function that returns categories to be assigned a to new employee. ###
+##################################################################################################
     public function createNewEmployee(Request $request) {
         
         $categoriesForCheckboxes = Category::getCategoriesForCheckboxes();
@@ -103,6 +109,9 @@ class MainController extends Controller
     * /books/new
     * Process the form for adding a new book
     */
+#######################################################################################################################################
+### V) "saveNewEmployee" function saves a new employee with unchecked categories. new employee is assigned the logged in manager.   ###
+#######################################################################################################################################
     public function saveNewEmployee(Request $request) {
 
         $usrID = Auth::user();
@@ -124,24 +133,21 @@ class MainController extends Controller
             'teamID' => 'not_in:0',
         ], $messages);
 
-
-
-###            'teamID' => 'not_in:0',
-
-
-        # Add new book to database
+        ###########################################################################################################################################
+        # Add new employee to database first                                                                                                      #
+        ###########################################################################################################################################
         $employee = new Employee();
         $employee->title = $request->title;
         $employee->first_name = $request->firstName;
         $employee->last_name = $request->lastName;
         $employee->team_id = $id;
-###dd($id);
         $employee->save();
-
-        # Now handle tags.
-        # Note how the book has to be created (save) first *before* tags can
-        # be added; this is because the tags need a book_id to associate with
-        # and we don't have a book_id until the book is created.
+ 
+        ###########################################################################################################################################
+        # assigns categories to the $tag array only if there are categories in the request collection. Otherwise an empty array is assigned.      #   
+        # then categories are assigned to the employee named as tags, synched via the previously established relationship between the Category    # 
+        # and Employee Models.                                                                                                                    #
+        ###########################################################################################################################################
         $tags = ($request->tags) ? : [];
         $employee->categories()->sync($tags);
         $employee->save();
@@ -154,11 +160,11 @@ class MainController extends Controller
 /**
 * POST
 * /employees/edit
-* Process form to edit a book
+* Process form to edit a employee
 */
-##############################################################################################
-# Edit selected employee
-##############################################################################################
+#######################################################################################################################################
+### VI) "edit" function allows editing of the selected employees category assignments.
+#######################################################################################################################################
 public function edit(Request $request) {
 
     $id=$request->id;
@@ -167,6 +173,12 @@ public function edit(Request $request) {
         return redirect('/index');
     }
 
+
+    $edit_delete=$request->edit_delete;
+    if($request->edit_delete=='show') {
+        Session::flash('message', 'Employee found.');
+        return redirect('/show/'.$request->id);
+    }
 
     $edit_delete=$request->edit_delete;
     if($request->edit_delete=='delete') {
@@ -202,27 +214,24 @@ public function edit(Request $request) {
 * /books/edit
 * Process form to save edits to a book
 */
-##############################################################################################
-#
-##############################################################################################
+#######################################################################################################################################
+### VII) "saveEdits" function allows edited category assignments to be saved to the edited employee.                                  #
+#######################################################################################################################################
 public function saveEdits(Request $request) {
 
         $employee = Employee::find($request->id);
 
-        # If there were tags selected...
-        if($request->tags) {
-            $tags = $request->tags;
-        }
+        ###if($request->tags) {$tags = $request->tags;}
 
-        # If there were no tags selected (i.e. no tags in the request)
-        # default to an empty array of tags
-       else {
-            $tags = [];
-        }
+       ###else {   $tags = [];
+       ### }
 
-        # Above if/else could be condensed down to this: $tags = ($request->tags)?: [];
-
-        # Sync tags
+        ###########################################################################################################################################
+        # assigns categories to the $tag array only if there are categories in the request collection. Otherwise an empty array is assigned.      #   
+        # then categories are assigned to the employee named as tags, synched via the previously established relationship between the Category    # 
+        # and Employee Models.                                                                                                                    #
+        ###########################################################################################################################################
+        $tags = ($request->tags)?: [];
         $employee->categories()->sync($tags);
         $employee->save();
 
@@ -236,6 +245,9 @@ public function saveEdits(Request $request) {
     * GET
     * Page to confirm deletion
     */
+#######################################################################################################################################
+### VIII) "confirmDeletion" function hard deletes the targeted employee and passes the logic flow to the delete view.                 #
+#######################################################################################################################################
     public function confirmDeletion($id) {
 
         # Get employee to be deleted
@@ -255,9 +267,9 @@ public function saveEdits(Request $request) {
     * POST
     * Actually delete the book
     */
-##############################################################################################
-# Delete employee
-##############################################################################################
+#######################################################################################################################################
+### IX) "delete" function identifies targeted employee and passes the logic flow to the delete view.                                  #
+#######################################################################################################################################
     public function delete(Request $request) {
 
         # Get the employee to be deleted

@@ -1,10 +1,21 @@
 <?php
+################################################################
+#CSCI E-15 Dynamic Web Applications                            #
+#Assignment A4                                                 #
+#Developer: Allen C. Walker                                    #
+################################################################
 
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Employee;
 
+###########################################################################
+### This Model class contains the logic regarding the categories table. ###
+### I)  Sets up a relationships with the Employee Model.                ###
+### II) Contains a function that returns data from the categories       ###
+###     that is used in checkboxes for each employee.                   ###
+###########################################################################
 class Category extends Model
 {
 

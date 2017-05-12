@@ -1,4 +1,9 @@
 <?php
+################################################################
+#CSCI E-15 Dynamic Web Applications                            #
+#Assignment A4                                                 #
+#Developer: Allen C. Walker                                    #
+################################################################
 
 namespace App;
 

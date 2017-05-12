@@ -1,4 +1,8 @@
 @extends('layouts.master')
+{{--#################################################################################--}}
+{{--#   CSCI E-15 Dynamic We Applications.                                          #--}}          
+{{--#   Developer: Allen C. Walker                                                  #--}}          
+{{--#################################################################################--}}
 
 @section('title')
     Sales Portal
@@ -31,40 +35,28 @@
                     </option>
                 @endforeach
             </select><br>
-        <input type='radio' name='edit_delete' id='edit' value='edit' checked='CHECKED'> Edit employee<br>
+        <input type='radio' name='edit_delete' id='show' value='show' checked='CHECKED'> Show employee<br>
+        <input type='radio' name='edit_delete' id='edit' value='edit'> Edit employee<br>
         <input type='radio' name='edit_delete' id='delete' value='delete' > Delete employee<br>
         <input type='submit' class='/css/acw.css' name='processaction' value='submit'>
         </ul>
     </div>
- {{--   <nav>                                                                                          --}}
- {{--       <ul>                                                                                       --}}
- {{--           <li><a href='/'>Home</a></li>                                                          --}} 
- {{--           <li><a href='/search'>Search</a></li>                                                  --}}
- {{--           <li><a href='/books/new'>Add a book</a></li>                                           --}}
- {{--           <li>                                                                                   --}}
- {{--               <form method='POST' id='logout' action='/logout'>                                  --}}
- {{--                   {{csrf_field()}}                                                               --}}
- {{--                   <a href='#' onClick='document.getElementById("logout").submit();'>Logout</a>   --}}
- {{--               </form>                                                                            --}} 
- {{--           </li>                                                                                  --}}
- {{--       </ul>                                                                                      --}}
- {{--   </nav>                                                                                         --}}
 
     </form>
 
+{{--##################        Code temporarily disabled           ###################--}}
 {{--#################################################################################--}}
 {{--#If validation error are generated, they are diplayed in the section.           #--}}          
 {{--#If validation error are not generated, the calculated word value is displayed. #--}}          
 {{--#################################################################################--}}
-@if(count($errors) > 0)                                                                                
-{{--#    <ul>                                                                                               #--}}
-{{--#        @foreach ($errors->all() as $error)                                                            #--}}
-{{--#            <li>{{ $error }}</li>                                                                      #--}}
-{{--#        @endforeach                                                                                    #--}}
-{{--#    </ul>                                                                                              #--}}
-@else                                                                                                                                                        {{--#    @if($login != null)                                                                                #--}}
-{{--#        <h3>logged in !!!</h3>                                                                         #--}}
-{{--#    @endif                                                                                             #--}}
-@endif                                                                                                 
+{{--@if(count($errors) > 0)                                                          --}}                                                                    
+{{--<ul>                                                                             --}}                                                                    {{--    @foreach ($errors->all() as $error)                                          --}}                  
+{{--        <li>{{ $error }}</li>                                                    --}}                 
+{{--    @endforeach                                                                  --}}                 
+{{--</ul>                                                                            --}}                  
+{{--@else                                                                            --}}                                                                    {{--        @if($login != null)                                                      --}}                         
+{{--        <h3>logged in !!!</h3>                                                   --}}                      
+{{--    @endif                                                                       --}}                      
+{{--@endif                                                                           --}}                      
 
 @endsection

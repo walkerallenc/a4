@@ -1,10 +1,19 @@
 <?php
+################################################################
+#CSCI E-15 Dynamic Web Applications                            #
+#Assignment A4                                                 #
+#Developer: Allen C. Walker                                    #
+################################################################
 
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-###use App\Manager;
 
+###########################################################################
+### This Model class contains the logic regarding the managers table.   ###
+### I)  Sets up a relationships with the Manager Model.                 ###
+### II) Sets up a relationships with the Category Model.                ###
+###########################################################################
 class Employee extends Model
 {
     public function manager() { 

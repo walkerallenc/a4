@@ -1,4 +1,8 @@
 @extends('layouts.master')
+{{--#################################################################################--}}
+{{--#   CSCI E-15 Dynamic We Applications.                                          #--}}          
+{{--#   Developer: Allen C. Walker                                                  #--}}          
+{{--#################################################################################--}}
 
 @section('title')
     Confirm deletion: {{ $employee->title }}
